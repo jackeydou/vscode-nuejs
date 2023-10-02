@@ -40,21 +40,28 @@
 	},
 	"contributes": {
     "languages": [{
-      "id": "nuejs",
+      "id": "nue",
       "aliases": ["nuejs", "nue.js"],
       "extensions": [".nue"],
       "configuration": "./languages/nue-language-configuration.json"
     }],
     "grammars": [{
-      "language": "nuejs",
+      "language": "nue",
       "scopeName": "source.nue",
       "path": "./syntaxes/nuejs.tmLanguage.json",
 			"embeddedLanguages": {
-				"source.nue": "nuejs",
 				"text": "plaintext",
 				"text.html.derivative": "html",
-				"text.html.markdown": "markdown"
+				"text.html.markdown": "markdown",
+				"source.js": "javascript",
+        "source.ts": "typescript"
 			}
-    }]
+    }],
+		"snippets": [
+			{
+				"language": "nue",
+				"path": "./snippets/nuejs-template-snippets.json"
+			}
+		]
   }
 }

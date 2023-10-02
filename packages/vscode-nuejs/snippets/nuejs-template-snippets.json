@@ -1,0 +1,60 @@
+{
+  "Nuejs For Loop": {
+    "prefix": [":for"],
+    "body": [":for=\"(const ${2:element} of ${1:array})\""],
+    "description": "Nuejs For Loop directive"
+  },
+  "Nuejs If Directive": {
+    "prefix": [":if"],
+    "body": [
+      ":if=\"${1:condition}\""
+    ],
+    "description": "Nuejs If directive"
+  },
+  "Nuejs Else Directive": {
+    "prefix": [":else"],
+    "body": [
+      ":else=\"${1:condition}\""
+    ],
+    "description": "Nuejs else directive"
+  },
+  "Nuejs ElseIf Directive": {
+    "prefix": [":elif"],
+    "body": [
+      ":else-if=\"${1:condition}\""
+    ],
+    "description": "Nuejs else-if directive"
+  },
+  "Nuejs Conditional Template": {
+    "prefix": ["nif"],
+    "body": [
+      "<${1:div} :if=\"${2:if}\"></${1:div}>",
+      "<${3:div} :else-if=\"${4:elseif}\"></${3:div}>",
+      "<${5:div} :else></${5:div}>"
+    ],
+    "description": "Nuejs Conditional Template"
+  },
+  "Nuejs For Loop Template": {
+    "prefix": ["nfor"],
+    "body": [
+      "<${3:div} :for=\"(const (${2:element}, index) of ${1:array})\"></${3:div}>"
+    ],
+    "description": "Nuejs For Loop Template"
+  },
+  "Nuejs Script": {
+    "prefix": ["nscript"],
+    "body": [
+      "<script>",
+			"  constructor(data) {",
+			"  }",
+			"  mounted() {",
+			"  }",
+			"  updated() {",
+			"  }",
+			"  unmounted() {",
+			"  }",
+			"</script>"
+    ],
+    "description": "Nuejs <script /> Template"
+  }
+}
