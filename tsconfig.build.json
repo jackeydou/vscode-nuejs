@@ -3,7 +3,7 @@
 	"include": [],
 	"references": [
 		{
-			"path": "./packages/vscode/tsconfig.json"
+			"path": "./packages/vscode-nuejs/tsconfig.json"
 		},
 	]
 }

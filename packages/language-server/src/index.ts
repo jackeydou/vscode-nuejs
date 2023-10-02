@@ -5,7 +5,7 @@ import createCssService from 'volar-service-css';
 import { createConnection, startLanguageServer, LanguageServerPlugin, Diagnostic, Service } from '@volar/language-server/node';
 
 const plugin: LanguageServerPlugin = (): ReturnType<LanguageServerPlugin> => ({
-	extraFileExtensions: [{ extension: 'html1', isMixedContent: true, scriptKind: 7 }],
+	extraFileExtensions: [{ extension: 'nue', isMixedContent: true, scriptKind: 7 }],
 	resolveConfig(config) {
 
 		// languages
@@ -17,7 +17,7 @@ const plugin: LanguageServerPlugin = (): ReturnType<LanguageServerPlugin> => ({
 		config.services.html ??= createHtmlService();
 		config.services.css ??= createCssService();
 		config.services.emmet ??= createEmmetService();
-		config.services.html1 ??= (context): ReturnType<Service> => ({
+		config.services.html ??= (context): ReturnType<Service> => ({
 			provideDiagnostics(document) {
 
 				const [file] = context!.documents.getVirtualFileByUri(document.uri);

@@ -1,0 +1,267 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "nuejs",
+  "patterns": [
+    {
+      "include": "text.html.basic#comment"
+    },
+    {
+      "include": "#self-closing-tag"
+    },
+    {
+      "begin": "(<)",
+      "beginCaptures": {
+        "1": {
+          "name": "punctuation.definition.tag.begin.html.nue"
+        }
+      },
+      "end": "(>)",
+      "endCaptures": {
+        "1": {
+          "name": "punctuation.definition.tag.end.html.nue"
+        }
+      },
+      "patterns": [
+        {
+          "begin": "([a-zA-Z0-9:-]+)\\b",
+          "beginCaptures": {
+            "0": {
+              "name": "entity.name.tag.$1.html.nue"
+            }
+          },
+          "end": "(</)(\\1)\\s*(?=>)",
+          "endCaptures": {
+            "1": {
+              "name": "punctuation.definition.tag.begin.html.nue"
+            },
+            "2": {
+              "name": "entity.name.tag.$2.html.nue"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#tag-stuff"
+            },
+            {
+              "begin": "(?<=>)",
+              "end": "(?=<\\/)",
+              "name": "source.nue",
+              "patterns": [
+                {
+                  "include": "source.nue"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "begin": "(script)\\b",
+          "beginCaptures": {
+            "1": {
+              "name": "entity.name.tag.$1.html.vue"
+            }
+          },
+          "end": "(</)(\\1)\\s*(?=>)",
+          "endCaptures": {
+            "1": {
+              "name": "punctuation.definition.tag.begin.html.vue"
+            },
+            "2": {
+              "name": "entity.name.tag.$2.html.vue"
+            }
+          },
+          "patterns": [
+            {
+              "includes": "#tag-stuff"
+            },
+            {
+              "begin": "(?<=>)",
+              "end": "(</script\\b)",
+              "name": "source.js",
+              "patterns": [
+                {
+                  "includes": "source.js"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "repository": {
+    "self-close-tag": {
+      "name": "self-closing-tag",
+      "begin": "(<)([a-zA-Z0-9:-]+)(?=([^>]+/>))",
+      "beginCaptures": {
+        "1": {
+          "name": "punctuation.definition.tag.begin.html.nue"
+        },
+        "2": {
+          "name": "entity.name.tag.$2.html.nue"
+        }
+      },
+      "end": "(/>)",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.tag.end.html.nue"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#tag-stuff"
+        }
+      ]
+    },
+    "nue-directives": {
+      "patterns": [
+        {
+          "include": "#nue-directives-control-flow"
+        },
+        {
+          "include": "#nue-directives-attr"
+        },
+        {
+          "include": "#nue-directives-bind"
+        }
+      ]
+    },
+    "nue-directives-control-flow": {
+      "begin": "(?<=:)(for)|(if|else|else-if)",
+      "captures": {
+        "1": {
+          "name": "keyword.control.loop.nue"
+        },
+        "2": {
+          "name": "keyword.control.condition.nue"
+        }
+      },
+      "end": "(?=\\s*[^=\\s])",
+      "name": "meta.attribute.directive.control.nue",
+      "patterns": [
+        {
+          "includes": "#nue-directives-expression"
+        }
+      ]
+    },
+    "nue-directives-expression": {
+      "begin": "(=)\\s*('|\"|`)",
+      "beginCaptures": {
+        "1": {
+          "name": "punctuation.separator.key-value.html.nue"
+        },
+        "2": {
+          "name": "punctuation.definition.string.begin.html.nue"
+        }
+      },
+      "end": "(\\2)",
+      "endCaptures": {
+        "1": {
+          "name": "punctuation.definition.string.end.html.nue"
+        }
+      },
+      "patterns": [
+        {
+          "begin": "(?<=('|\"|`))",
+          "end": "(?=\\1)",
+          "name": "source.ts.embedded.html.nue",
+          "patterns": [
+            {
+              "include": "source.ts"
+            }
+          ]
+        },
+        {
+          "begin": "(=)\\s*(?=[^'\"`])",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.separator.key-value.html.nue"
+            }
+          },
+          "end": "(?=(\\s|>|\\/>))",
+          "patterns": [
+            {
+              "begin": "(=)\\s*(?=[^'\"`])",
+              "beginCaptures": {
+                "1": {
+                  "name": "punctuation.separator.key-value.html.nue"
+                }
+              },
+              "end": "(?=(\\s|>|\\/>))",
+              "patterns": [
+                {
+                  "begin": "(?=[^'\"`])",
+                  "end": "(?=(\\s|>|\\/>))",
+                  "name": "source.ts.embedded.html.nue",
+                  "patterns": [
+                    {
+                      "include": "source.ts"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "nue-directives-bind": {
+      "begin": "(:bind)",
+      "end": "(?=\\s*+[^=\\s])",
+      "name": "meta.attribute.directive.bind.nue"
+    },
+    "nue-directives-attr": {
+      "begin": "(:attr)",
+      "end": "(?=\\s*+[^=\\s])",
+      "name": "meta.attribute.directive.attr.nue"
+    },
+    "nue-string-interpolation": {
+      "patterns": [
+        {
+          "name": "expression.embedded.nue",
+          "begin": "(\\{)",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.definition.interpolation.begin.html.nue"
+            }
+          },
+          "end": "(\\})",
+          "endCaptures": {
+            "1": {
+              "name": "punctuation.definition.interpolation.end.html.nue"
+            }
+          }
+        }
+      ]
+    },
+    "html-stuff": {
+      "patterns": [
+        {
+          "include": "text.html.derivative"
+        },
+        {
+          "include": "text.html.basic"
+        }
+      ]
+    },
+    "tag-stuff": {
+      "name": "meta.tag-stuff",
+      "begin": "\\G",
+      "end": "(?=/>)|(>)",
+      "endCaptures": {
+        "1": {
+          "name": "punctuation.definition.tag.end.html.nue"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#nue-directives"
+        },
+        {
+          "include": "text.html.basic#attribute"
+        }
+      ]
+    }
+  },
+  "scopeName": "source.nue"
+}
