@@ -41,7 +41,7 @@ importers:
 
   packages/vscode-nuejs:
     devDependencies:
-      '@html1/language-server':
+      '@nuejs/language-server':
         specifier: workspace:*
         version: link:../language-server
       '@types/vscode':

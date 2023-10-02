@@ -10,6 +10,7 @@ This project is created by [volarjs/starter template](https://github.com/volarjs
 > Learned a lot from the following projects:
 
 - [Volar](https://volarjs.github.io/)
+- [Vetur](https://github.com/vuejs/vetur)
 - [vuejs/language-tools](https://github.com/vuejs/language-tools)
 - [Microsoft Language Extension overview](https://code.visualstudio.com/api/language-extensions/overview)
 

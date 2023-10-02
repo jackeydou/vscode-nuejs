@@ -25,11 +25,12 @@
 		"prebuild": "cd ../.. && npm run build",
 		"build": "node scripts/build -- --minify",
 		"watch": "npm run build -- --watch",
+		"build:syntax": "js-yaml ./syntaxes/nuejs.tmLanguage.yaml > ./syntaxes/nuejs.tmLanguage.json",
 		"pack": "npm run build && vsce package --pre-release",
 		"release": "npm run build && vsce publish --pre-release"
 	},
 	"devDependencies": {
-		"@html1/language-server": "workspace:*",
+		"@nuejs/language-server": "workspace:*",
 		"@types/vscode": "1.67.0",
 		"@volar/language-server": "~1.10.0",
 		"@volar/vscode": "~1.10.0",
