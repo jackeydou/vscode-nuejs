@@ -1,0 +1,19 @@
+<!-- Text expressions -->
+<span>Text: { text }</span>
+
+<!-- Value is escaped: Hello, <b>World!</b> -->
+<p>{ value }</p>
+
+<!-- Value is rendered as HTML: Hello, <b>World!</b> -->
+<p>{{ value }}</p>
+
+<!-- Same as the above (Vue compatibility) -->
+<p :html="value"/>
+
+<p>{ message.split('').reverse().join('') }</p>
+
+<p>{ ok ? '👍' : '😡' }</p>
+
+<label :class="field { is-active: isActive, has-error: hasError }"></label>
+<label class="field is-active has-error"></label>
+<label :class="field { is-active: isActive } { getErrorClass() }"></label>

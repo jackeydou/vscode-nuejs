@@ -1,0 +1,5 @@
+<div @name="test-condition">
+    <p :if="aaa">aaaa</p>
+    <p :else-if="aaa">aaaa</p>
+    <p :else="aaa">aaaa</p>
+</div>

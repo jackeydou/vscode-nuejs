@@ -1,0 +1,3 @@
+<div @name="test-loop">
+    <p :for="items">aaaa</p>
+</div>

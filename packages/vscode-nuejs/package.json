@@ -21,16 +21,6 @@
 		"onLanguage:html1"
 	],
 	"main": "./dist/client.js",
-	"contributes": {
-		"languages": [
-			{
-				"id": "html1",
-				"extensions": [
-					".html1"
-				]
-			}
-		]
-	},
 	"scripts": {
 		"prebuild": "cd ../.. && npm run build",
 		"build": "node scripts/build -- --minify",
@@ -45,6 +35,26 @@
 		"@volar/vscode": "~1.10.0",
 		"esbuild": "0.15.18",
 		"vsce": "latest",
-		"vscode-languageclient": "^8.1.0"
-	}
+		"vscode-languageclient": "^8.1.0",
+		"js-yaml": "^4.1.0"
+	},
+	"contributes": {
+    "languages": [{
+      "id": "nuejs",
+      "aliases": ["nuejs", "nue.js"],
+      "extensions": [".nue"],
+      "configuration": "./languages/nue-language-configuration.json"
+    }],
+    "grammars": [{
+      "language": "nuejs",
+      "scopeName": "source.nue",
+      "path": "./syntaxes/nuejs.tmLanguage.json",
+			"embeddedLanguages": {
+				"source.nue": "nuejs",
+				"text": "plaintext",
+				"text.html.derivative": "html",
+				"text.html.markdown": "markdown"
+			}
+    }]
+  }
 }
