@@ -5,6 +5,14 @@
 
 This project is created by [volarjs/starter template](https://github.com/volarjs/starter).
 
+More informations, Please see [packages/vscode-nuejs](https://github.com/jackeydou/vscode-nuejs/tree/master/packages/vscode-nuejs)
+
+## Features
+- Syntax highlighting for Nuejs files.
+- Code snippets and autocompletion for Nuejs syntax.
+- Improved editing experience for Nuejs developers.
+- More features are working in progress!
+
 ## References
 
 > Learned a lot from the following projects:
@@ -15,6 +23,10 @@ This project is created by [volarjs/starter template](https://github.com/volarjs
 - [Microsoft Language Extension overview](https://code.visualstudio.com/api/language-extensions/overview)
 
 
+## Contributing
+
+Contributions are welcome! If you encounter any issues or have suggestions for improvements, please open an issue on the [GitHub repository](https://github.com/jackeydou/vscode-nuejs). Pull requests are also appreciated.
+
 ## License
 
-MIT
+This extension is released under the [MIT License](https://opensource.org/licenses/MIT).

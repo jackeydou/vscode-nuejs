@@ -1,24 +1,25 @@
 {
 	"private": true,
-	"name": "vscode-html1",
+	"name": "vscode-nuejs",
 	"version": "0.0.1",
+	"icon": "assets/nuejs-logo.png",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/volarjs/starter.git",
-		"directory": "packages/vscode"
+		"directory": "packages/vscode-nuejs"
 	},
 	"categories": [
 		"Programming Languages"
 	],
-	"displayName": "HTML1 Language Features",
-	"description": "HTML1 Language Features",
-	"author": "volarjs",
-	"publisher": "volarjs",
+	"displayName": "Nuejs Language Features",
+	"description": "Nuejs Language Features",
+	"author": "jackey.dou",
+	"publisher": "jackey.dou",
 	"engines": {
 		"vscode": "^1.67.0"
 	},
 	"activationEvents": [
-		"onLanguage:html1"
+		"onLanguage:nue"
 	],
 	"main": "./dist/client.js",
 	"scripts": {

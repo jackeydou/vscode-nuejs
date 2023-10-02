@@ -17,7 +17,7 @@
 		"noUnusedParameters": true,
 		"baseUrl": "./",
 		"paths": {
-			"@html1/language-server": [
+			"@nuejs/language-server": [
 				"packages/language-server/src"
 			],
 		},
