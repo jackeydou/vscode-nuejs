@@ -1,12 +1,69 @@
 {
   "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
   "name": "nuejs",
+  "fileTypes": [
+    "nue"
+  ],
+  "uuid": "68c68c73-258c-4f49-b4bf-ab2894e77ba7",
   "patterns": [
     {
       "include": "text.html.basic#comment"
     },
     {
-      "include": "#self-closing-tag"
+      "begin": "(<)([a-zA-Z0-9:\\-_]+)(?=([^>]*/>))",
+      "beginCaptures": {
+        "1": {
+          "name": "punctuation.definition.tag.begin.html.sc.nue"
+        },
+        "2": {
+          "name": "entity.name.tag.$2.html.sc.nue"
+        }
+      },
+      "end": "(/>)",
+      "endCaptures": {
+        "1": {
+          "name": "punctuation.definition.tag.end.html.sc.nue"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#tag-stuff"
+        }
+      ]
+    },
+    {
+      "begin": "(<)(script)\\b(>)",
+      "beginCaptures": {
+        "1": {
+          "name": "punctuation.definition.tag.begin.html.nue"
+        },
+        "2": {
+          "name": "entity.name.tag.script.html.nue"
+        },
+        "3": {
+          "name": "punctuation.definition.tag.end.html.nue"
+        }
+      },
+      "end": "(</)(\\2)\\s*(>)",
+      "endCaptures": {
+        "1": {
+          "name": "punctuation.definition.tag.begin.html.nue"
+        },
+        "2": {
+          "name": "entity.name.tag.script.html.nue"
+        },
+        "3": {
+          "name": "punctuation.definition.tag.end.html.nue"
+        }
+      },
+      "patterns": [
+        {
+          "includes": "source.js"
+        },
+        {
+          "includes": "source.ts"
+        }
+      ]
     },
     {
       "begin": "(<)",
@@ -23,9 +80,9 @@
       },
       "patterns": [
         {
-          "begin": "([a-zA-Z0-9:-]+)\\b",
+          "begin": "(?<=<)([a-zA-Z0-9:\\-]+)\\b(?=[^>]*>)",
           "beginCaptures": {
-            "0": {
+            "1": {
               "name": "entity.name.tag.$1.html.nue"
             }
           },
@@ -44,75 +101,25 @@
             },
             {
               "begin": "(?<=>)",
-              "end": "(?=<\\/)",
-              "name": "source.nue",
+              "end": "(?=</)",
               "patterns": [
                 {
                   "include": "source.nue"
+                },
+                {
+                  "include": "#html-stuff"
                 }
               ]
             }
           ]
         },
         {
-          "begin": "(script)\\b",
-          "beginCaptures": {
-            "1": {
-              "name": "entity.name.tag.$1.html.vue"
-            }
-          },
-          "end": "(</)(\\1)\\s*(?=>)",
-          "endCaptures": {
-            "1": {
-              "name": "punctuation.definition.tag.begin.html.vue"
-            },
-            "2": {
-              "name": "entity.name.tag.$2.html.vue"
-            }
-          },
-          "patterns": [
-            {
-              "includes": "#tag-stuff"
-            },
-            {
-              "begin": "(?<=>)",
-              "end": "(</script\\b)",
-              "name": "source.js",
-              "patterns": [
-                {
-                  "includes": "source.js"
-                }
-              ]
-            }
-          ]
+          "include": "#tag-stuff"
         }
       ]
     }
   ],
   "repository": {
-    "self-close-tag": {
-      "name": "self-closing-tag",
-      "begin": "(<)([a-zA-Z0-9:-]+)(?=([^>]+/>))",
-      "beginCaptures": {
-        "1": {
-          "name": "punctuation.definition.tag.begin.html.nue"
-        },
-        "2": {
-          "name": "entity.name.tag.$2.html.nue"
-        }
-      },
-      "end": "(/>)",
-      "endCaptures": {
-        "0": {
-          "name": "punctuation.definition.tag.end.html.nue"
-        }
-      },
-      "patterns": [
-        {
-          "include": "#tag-stuff"
-        }
-      ]
-    },
     "nue-directives": {
       "patterns": [
         {
@@ -234,6 +241,23 @@
         }
       ]
     },
+    "nue-reactive-attributes": {
+      "begin": "(?<=:|@)([a-zA-Z][a-zA-Z0-9\\-_])",
+      "captures": {
+        "1": {
+          "name": "entity.other.attribute-name.html.nue"
+        }
+      },
+      "end": "(?=\\s*[^=\\s])",
+      "patterns": [
+        {
+          "includes": "#nue-directives-expression"
+        },
+        {
+          "includes": "#nue-string-interpolation"
+        }
+      ]
+    },
     "html-stuff": {
       "patterns": [
         {
@@ -259,6 +283,9 @@
         },
         {
           "include": "text.html.basic#attribute"
+        },
+        {
+          "include": "#nue-reactive-attributes"
         }
       ]
     }

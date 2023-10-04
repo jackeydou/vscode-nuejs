@@ -1,4 +1,4 @@
-import { language, Html1File } from './language';
+import { language, NuejsFile } from './language';
 import createEmmetService from 'volar-service-emmet';
 import createHtmlService from 'volar-service-html';
 import createCssService from 'volar-service-css';
@@ -21,7 +21,7 @@ const plugin: LanguageServerPlugin = (): ReturnType<LanguageServerPlugin> => ({
 			provideDiagnostics(document) {
 
 				const [file] = context!.documents.getVirtualFileByUri(document.uri);
-				if (!(file instanceof Html1File)) return;
+				if (!(file instanceof NuejsFile)) return;
 
 				const styleNodes = file.htmlDocument.roots.filter(root => root.tag === 'style');
 				if (styleNodes.length <= 1) return;
