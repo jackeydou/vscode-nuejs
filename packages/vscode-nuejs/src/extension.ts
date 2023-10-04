@@ -28,19 +28,19 @@ export async function activate(context: vscode.ExtensionContext) {
 		// typescript: { tsdk: require('path').join(vscode.env.appRoot, 'extensions/node_modules/typescript/lib') },
 	};
 	const clientOptions: lsp.LanguageClientOptions = {
-		documentSelector: [{ language: 'html1' }],
+		documentSelector: [{ language: 'nue' }],
 		initializationOptions,
 	};
 	client = new lsp.LanguageClient(
-		'html1-language-server',
-		'HTML1 Language Server',
+		'nuejs-language-server',
+		'Nuejs Language Server',
 		serverOptions,
 		clientOptions,
 	);
 	await client.start();
 
 	// support for auto close tag
-	activateAutoInsertion([client], document => document.languageId === 'html1');
+	activateAutoInsertion([client], document => document.languageId === 'nue');
 
 	// support for https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volarjs-labs
 	// ref: https://twitter.com/johnsoncodehk/status/1656126976774791168
