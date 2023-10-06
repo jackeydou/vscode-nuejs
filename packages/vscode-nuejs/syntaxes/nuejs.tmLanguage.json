@@ -4,291 +4,256 @@
   "fileTypes": [
     "nue"
   ],
+  "scopeName": "source.nue",
   "uuid": "68c68c73-258c-4f49-b4bf-ab2894e77ba7",
   "patterns": [
     {
       "include": "text.html.basic#comment"
     },
     {
-      "begin": "(<)([a-zA-Z0-9:\\-_]+)(?=([^>]*/>))",
-      "beginCaptures": {
-        "1": {
-          "name": "punctuation.definition.tag.begin.html.sc.nue"
-        },
-        "2": {
-          "name": "entity.name.tag.$2.html.sc.nue"
-        }
-      },
-      "end": "(/>)",
-      "endCaptures": {
-        "1": {
-          "name": "punctuation.definition.tag.end.html.sc.nue"
-        }
-      },
-      "patterns": [
-        {
-          "include": "#tag-stuff"
-        }
-      ]
-    },
-    {
-      "begin": "(<)(script)\\b(>)",
-      "beginCaptures": {
-        "1": {
-          "name": "punctuation.definition.tag.begin.html.nue"
-        },
-        "2": {
-          "name": "entity.name.tag.script.html.nue"
-        },
-        "3": {
-          "name": "punctuation.definition.tag.end.html.nue"
-        }
-      },
-      "end": "(</)(\\2)\\s*(>)",
-      "endCaptures": {
-        "1": {
-          "name": "punctuation.definition.tag.begin.html.nue"
-        },
-        "2": {
-          "name": "entity.name.tag.script.html.nue"
-        },
-        "3": {
-          "name": "punctuation.definition.tag.end.html.nue"
-        }
-      },
-      "patterns": [
-        {
-          "includes": "source.js"
-        },
-        {
-          "includes": "source.ts"
-        }
-      ]
-    },
-    {
-      "begin": "(<)",
-      "beginCaptures": {
-        "1": {
-          "name": "punctuation.definition.tag.begin.html.nue"
-        }
-      },
-      "end": "(>)",
-      "endCaptures": {
-        "1": {
-          "name": "punctuation.definition.tag.end.html.nue"
-        }
-      },
-      "patterns": [
-        {
-          "begin": "(?<=<)([a-zA-Z0-9:\\-]+)\\b(?=[^>]*>)",
-          "beginCaptures": {
-            "1": {
-              "name": "entity.name.tag.$1.html.nue"
-            }
-          },
-          "end": "(</)(\\1)\\s*(?=>)",
-          "endCaptures": {
-            "1": {
-              "name": "punctuation.definition.tag.begin.html.nue"
-            },
-            "2": {
-              "name": "entity.name.tag.$2.html.nue"
-            }
-          },
-          "patterns": [
-            {
-              "include": "#tag-stuff"
-            },
-            {
-              "begin": "(?<=>)",
-              "end": "(?=</)",
-              "patterns": [
-                {
-                  "include": "source.nue"
-                },
-                {
-                  "include": "#html-stuff"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "include": "#tag-stuff"
-        }
-      ]
+      "include": "#scope"
     }
   ],
   "repository": {
-    "nue-directives": {
+    "scope": {
       "patterns": [
         {
-          "include": "#nue-directives-control-flow"
+          "include": "#tags"
         },
         {
-          "include": "#nue-directives-attr"
+          "include": "#interpolation"
         },
         {
-          "include": "#nue-directives-bind"
+          "begin": "(?<=>|})",
+          "end": "(?=<|{)",
+          "name": "text.nue"
         }
       ]
     },
-    "nue-directives-control-flow": {
-      "begin": "(?<=:)(for)|(if|else|else-if)",
-      "captures": {
-        "1": {
-          "name": "keyword.control.loop.nue"
-        },
-        "2": {
-          "name": "keyword.control.condition.nue"
-        }
-      },
-      "end": "(?=\\s*[^=\\s])",
-      "name": "meta.attribute.directive.control.nue",
+    "tags": {
       "patterns": [
         {
-          "includes": "#nue-directives-expression"
+          "include": "#tags-void"
+        },
+        {
+          "include": "#tags-general-end"
+        },
+        {
+          "include": "#tags-general-start"
         }
       ]
     },
-    "nue-directives-expression": {
-      "begin": "(=)\\s*('|\"|`)",
+    "tags-void": {
+      "begin": "(<)(area|base|br|col|embed|hr|img|input|link|meta|param|source|track|wbr)(?=\\s|/?>)",
       "beginCaptures": {
         "1": {
-          "name": "punctuation.separator.key-value.html.nue"
+          "name": "punctuation.definition.tag.begin.nue"
         },
         "2": {
-          "name": "punctuation.definition.string.begin.html.nue"
+          "name": "entity.name.tag.nue"
         }
       },
-      "end": "(\\2)",
+      "end": "/?>",
       "endCaptures": {
-        "1": {
-          "name": "punctuation.definition.string.end.html.nue"
+        "0": {
+          "name": "punctuation.definition.tag.begin.nue"
         }
       },
-      "patterns": [
-        {
-          "begin": "(?<=('|\"|`))",
-          "end": "(?=\\1)",
-          "name": "source.ts.embedded.html.nue",
-          "patterns": [
-            {
-              "include": "source.ts"
-            }
-          ]
-        },
-        {
-          "begin": "(=)\\s*(?=[^'\"`])",
-          "beginCaptures": {
-            "1": {
-              "name": "punctuation.separator.key-value.html.nue"
-            }
-          },
-          "end": "(?=(\\s|>|\\/>))",
-          "patterns": [
-            {
-              "begin": "(=)\\s*(?=[^'\"`])",
-              "beginCaptures": {
-                "1": {
-                  "name": "punctuation.separator.key-value.html.nue"
-                }
-              },
-              "end": "(?=(\\s|>|\\/>))",
-              "patterns": [
-                {
-                  "begin": "(?=[^'\"`])",
-                  "end": "(?=(\\s|>|\\/>))",
-                  "name": "source.ts.embedded.html.nue",
-                  "patterns": [
-                    {
-                      "include": "source.ts"
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    "nue-directives-bind": {
-      "begin": "(:bind)",
-      "end": "(?=\\s*+[^=\\s])",
-      "name": "meta.attribute.directive.bind.nue"
-    },
-    "nue-directives-attr": {
-      "begin": "(:attr)",
-      "end": "(?=\\s*+[^=\\s])",
-      "name": "meta.attribute.directive.attr.nue"
-    },
-    "nue-string-interpolation": {
-      "patterns": [
-        {
-          "name": "expression.embedded.nue",
-          "begin": "(\\{)",
-          "beginCaptures": {
-            "1": {
-              "name": "punctuation.definition.interpolation.begin.html.nue"
-            }
-          },
-          "end": "(\\})",
-          "endCaptures": {
-            "1": {
-              "name": "punctuation.definition.interpolation.end.html.nue"
-            }
-          }
-        }
-      ]
-    },
-    "nue-reactive-attributes": {
-      "begin": "(?<=:|@)([a-zA-Z][a-zA-Z0-9\\-_])",
-      "captures": {
-        "1": {
-          "name": "entity.other.attribute-name.html.nue"
-        }
-      },
-      "end": "(?=\\s*[^=\\s])",
-      "patterns": [
-        {
-          "includes": "#nue-directives-expression"
-        },
-        {
-          "includes": "#nue-string-interpolation"
-        }
-      ]
-    },
-    "html-stuff": {
-      "patterns": [
-        {
-          "include": "text.html.derivative"
-        },
-        {
-          "include": "text.html.basic"
-        }
-      ]
-    },
-    "tag-stuff": {
-      "name": "meta.tag-stuff",
-      "begin": "\\G",
-      "end": "(?=/>)|(>)",
-      "endCaptures": {
-        "1": {
-          "name": "punctuation.definition.tag.end.html.nue"
-        }
-      },
+      "name": "meta.tag.void.nue",
       "patterns": [
         {
           "include": "#nue-directives"
         },
         {
-          "include": "text.html.basic#attribute"
+          "include": "#nue-reactive-attributes"
         },
         {
-          "include": "#nue-reactive-attributes"
+          "include": "#attributes"
+        },
+        {
+          "include": "text.html.basic#attribute"
+        }
+      ]
+    },
+    "tags-start-node": {
+      "match": "(<)([^/\\s>/]*)",
+      "captures": {
+        "1": {
+          "name": "punctuation.definition.tag.begin.nue"
+        },
+        "2": {
+          "patterns": [
+            {
+              "include": "#tags-name"
+            }
+          ]
+        }
+      },
+      "name": "meta.tag.start.nue"
+    },
+    "tags-name": {
+      "patterns": [
+        {
+          "match": "[a-z][\\w:-]*",
+          "name": "entity.name.tag.nue"
+        }
+      ]
+    },
+    "tags-attribute-start": {
+      "begin": "\\G",
+      "end": "(?=/?>)",
+      "name": "meta.tag.start.nue",
+      "patterns": [
+        {
+          "include": "#attributes"
+        }
+      ]
+    },
+    "tags-general-start": {
+      "begin": "(<)([^/\\s>/]*)",
+      "beginCaptures": {
+        "0": {
+          "patterns": [
+            {
+              "include": "#tags-start-node"
+            }
+          ]
+        }
+      },
+      "end": "(/?>)",
+      "endCaptures": {
+        "1": {
+          "name": "meta.tag.start.nue punctuation.definition.tag.end.nue"
+        }
+      },
+      "name": "meta.scope.tag.$2.nue",
+      "patterns": [
+        {
+          "include": "#tags-attribute-start"
+        }
+      ]
+    },
+    "tags-general-end": {
+      "begin": "(</)([^/\\s>]*)",
+      "end": "(>)",
+      "beginCaptures": {
+        "1": {
+          "name": "meta.tag.end.nue punctuation.definition.tag.begin.nue"
+        },
+        "2": {
+          "name": "meta.tag.end.nue",
+          "patterns": [
+            {
+              "include": "#tags-name"
+            }
+          ]
+        }
+      },
+      "endCaptures": {
+        "1": {
+          "name": "meta.tag.end.nue punctuation.definition.tag.end.nue"
+        }
+      },
+      "name": "meta.scope.tag.$2.nue"
+    },
+    "attributes": {
+      "patterns": [
+        {
+          "include": "#attribute-directives"
+        },
+        {
+          "include": "text.html.basic#attribute"
+        }
+      ]
+    },
+    "attribute-directives": {
+      "begin": "(?<!<)(:|@)([a-zA-Z][a-zA-Z0-9\\-_]+)",
+      "beginCaptures": {
+        "1": {
+          "name": "punctuation.definition.keyword.directive.nue"
+        },
+        "2": {
+          "name": "entity.other.attribute-name.nue"
+        }
+      },
+      "end": "(?=\\s*[^=\\s])",
+      "name": "meta.attribute.directive.$2.nue",
+      "patterns": [
+        {
+          "begin": "(=)",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.separator.key-value.nue"
+            }
+          },
+          "end": "(?<=[^\\s=])(?!\\s*=)|(?=/?>)",
+          "patterns": [
+            {
+              "include": "#attribute-value"
+            }
+          ]
+        }
+      ]
+    },
+    "attribute-value": {
+      "patterns": [
+        {
+          "include": "#interpolation"
+        },
+        {
+          "begin": "(['\"])",
+          "end": "\\1",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.begin.nue"
+            }
+          },
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.end.nue"
+            }
+          },
+          "name": "string.quoted.nue",
+          "patterns": [
+            {
+              "include": "#interpolation"
+            }
+          ]
+        }
+      ]
+    },
+    "interpolation": {
+      "patterns": [
+        {
+          "begin": "\\{",
+          "end": "\\}",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.section.embedded.begin.nue"
+            }
+          },
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.section.embedded.end.nue"
+            }
+          },
+          "contentName": "meta.embedded.expression.nue source.ts",
+          "patterns": [
+            {
+              "begin": "\\G\\s*(?={)",
+              "end": "(?<=})",
+              "patterns": [
+                {
+                  "include": "source.ts#object-literal"
+                }
+              ]
+            },
+            {
+              "include": "source.ts"
+            }
+          ]
         }
       ]
     }
-  },
-  "scopeName": "source.nue"
+  }
 }
