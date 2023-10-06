@@ -1,7 +1,7 @@
 {
 	"private": true,
 	"name": "vscode-nuejs",
-	"version": "0.0.2",
+	"version": "0.0.4",
 	"icon": "assets/nuejs-logo.png",
 	"repository": {
 		"type": "git",
@@ -59,7 +59,16 @@
 				"source.js": "javascript",
         "source.ts": "typescript"
 			}
-    }],
+    }, {
+			"scopeName": "markdown.nue.codeblock",
+			"path": "./syntaxes/nuejs-markdown.json",
+			"injectTo": [
+				"text.html.markdown"
+			],
+			"embeddedLanguages": {
+				"meta.embedded.block.nue": "nue"
+			}
+		}],
 		"snippets": [
 			{
 				"language": "nue",

@@ -22,7 +22,7 @@
     </article>
 
     <footer>
-      <img :src="favicon" class="icon" />
+      <img :src="favicon" class="icon"  @click="click" />
     </footer>
   </main>
 
