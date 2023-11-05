@@ -4,6 +4,10 @@ All notable changes to the "vscode-nuejs" extension will be documented in this f
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [Unreleased]
+
+
+
 ## [0.0.4]
 ### Added
 - supports markdown nuejs syntax highlight

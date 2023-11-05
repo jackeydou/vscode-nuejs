@@ -1,5 +1,5 @@
 {
-	"name": "@nuejs/language-server",
+	"name": "nuejs-language-server",
 	"version": "0.0.1",
 	"main": "out/index.js",
 	"license": "MIT",
@@ -8,15 +8,26 @@
 		"out/**/*.d.ts"
 	],
 	"bin": {
-		"nuejs-language-server": "./bin/nuejs-language-server.js"
+		"nuejs-language-server": "./bin/server.js"
+	},
+	"scripts": {
+		"build": "tsc",
+		"watch": "tsc -w"
 	},
 	"dependencies": {
-		"@volar/language-core": "~1.10.0",
-		"@volar/language-server": "~1.10.0",
-		"@volar/language-service": "~1.10.0",
 		"volar-service-css": "0.0.11",
 		"volar-service-emmet": "0.0.11",
 		"volar-service-html": "0.0.11",
-		"vscode-html-languageservice": "^5.0.6"
+		"htmlparser2": "^9.0.0",
+		"vscode-languageserver": "^9.0.1",
+		"vscode-languageserver-textdocument": "1.0.11",
+		"vscode-html-languageservice": "^5.0.6",
+		"vscode-css-languageservice": "^6.2.10",
+		"vscode-uri": "^3.0.8",
+		"vscode-languageserver-protocol": "^3.17.5",
+		"lodash-es": "^4.17.21"
+	},
+	"devDependencies": {
+		"vscode-languageserver-types": "^3.17.5"
 	}
 }

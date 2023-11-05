@@ -21,25 +21,29 @@
 	"activationEvents": [
 		"onLanguage:nue"
 	],
-	"main": "./dist/client.js",
+	"main": "./out/extension.js",
 	"scripts": {
 		"prebuild": "cd ../.. && npm run build",
-		"build": "node scripts/build -- --minify",
-		"watch": "npm run build -- --watch",
+		"build": "tsc",
+		"watch": "tsc -w",
 		"build:syntax": "js-yaml ./syntaxes/nuejs.tmLanguage.yaml > ./syntaxes/nuejs.tmLanguage.json",
 		"pack": "npm run build && vsce package --pre-release",
 		"pre-release": "npm run build && vsce publish --pre-release",
 		"release": "npm run build && vsce publish"
 	},
-	"devDependencies": {
-		"@nuejs/language-server": "workspace:*",
-		"@types/vscode": "1.67.0",
-		"@volar/language-server": "~1.10.0",
-		"@volar/vscode": "~1.10.0",
-		"esbuild": "0.15.18",
-		"vsce": "latest",
+	"dependencies": {
+		"nuejs-language-server": "workspace:*",
 		"vscode-languageclient": "^8.1.0",
-		"js-yaml": "^4.1.0"
+		"vscode-languageserver-protocol": "^3.17.5",
+		"lodash": "^4.17.21"
+	},
+	"devDependencies": {
+		"@types/vscode": "1.67.0",
+		"vsce": "latest",
+		"js-yaml": "^4.1.0",
+		"typescript": "^5.2.2",
+		"tslib": "^2.4.0",
+		"vscode-tmgrammar-test": "^0.0.11"
 	},
 	"contributes": {
     "languages": [{

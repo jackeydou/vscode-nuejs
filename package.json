@@ -5,10 +5,8 @@
 		"url": "https://github.com/volarjs/language-tools-starter.git"
 	},
 	"scripts": {
-		"build": "tsc -b tsconfig.build.json",
-		"watch": "npm run build && (npm run watch:tsc & npm run watch:esbuild)",
-		"watch:tsc": "tsc -b tsconfig.build.json -w",
-		"watch:esbuild": "cd ./packages/vscode-nuejs && npm run watch",
+		"watch": "tsc -b -w",
+		"build": "tsc -b",
 		"prerelease": "npm run build",
 		"pack": "cd ./packages/vscode-nuejs && npm run pack",
 		"release": "cd ./packages/vscode-nuejs && npm run release"

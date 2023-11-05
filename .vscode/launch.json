@@ -17,22 +17,18 @@
 				"--folder-uri=${workspaceRoot}/sample",
 			],
 			"outFiles": [
-				"${workspaceRoot}/*/*/out/**/*.js"
-			],
-			"preLaunchTask": {
-				"type": "npm",
-				"script": "watch"
-			}
+				"${workspaceRoot}/packages/vscode-nuejs/out/**/*.js"
+			]
 		},
 		{
 			"name": "Attach to Server",
 			"type": "node",
 			"request": "attach",
 			"port": 6009,
-			"restart": true,
 			"outFiles": [
-				"${workspaceRoot}/*/*/out/**/*.js"
-			]
+				"${workspaceRoot}/packages/language-server/out/**/*.js"
+			],
+			"skipFiles": ["<node_internals>/**"]
 		},
 	],
 }

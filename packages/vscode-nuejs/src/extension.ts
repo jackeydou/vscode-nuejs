@@ -1,35 +1,69 @@
-import { InitializationOptions } from '@volar/language-server';
-import * as serverProtocol from '@volar/language-server/protocol';
-import { ExportsInfoForLabs, activateAutoInsertion, supportLabsVersion } from '@volar/vscode';
 import * as vscode from 'vscode';
 import * as lsp from 'vscode-languageclient/node';
+import { BaseLanguageClient, LanguageClient, ServerOptions, TransportKind } from 'vscode-languageclient/node';
+import {
+	ExecuteCommandRequest,
+	LanguageClientOptions,
+	RequestType,
+	RevealOutputChannelOn,
+	TextDocumentEdit,
+	TextDocumentPositionParams,
+	WorkspaceEdit as LSWorkspaceEdit
+} from 'vscode-languageclient';
+import { activateTagClosing } from './html/autoclosing';
+
+namespace TagCloseRequest {
+	export const type: RequestType<TextDocumentPositionParams, string, any> = new RequestType(
+			'html/tag'
+	);
+}
 
 let client: lsp.BaseLanguageClient;
 
 export async function activate(context: vscode.ExtensionContext) {
 
-	const serverModule = vscode.Uri.joinPath(context.extensionUri, 'dist', 'server.js');
-	const runOptions = { execArgv: <string[]>[] };
-	const debugOptions = { execArgv: ['--nolazy', '--inspect=' + 6009] };
+	if (vscode.workspace.textDocuments.some((doc) => doc.languageId === 'nue')) {
+		activateNueLanguageServer(context);
+	} else {
+		const onTextDocumentListener = vscode.workspace.onDidOpenTextDocument((doc) => {
+			if (doc.languageId === 'nue') {
+				activateNueLanguageServer(context);
+				onTextDocumentListener.dispose();
+			}
+		});
+		context.subscriptions.push(onTextDocumentListener);
+	}
+
+	// support for auto close tag
+	// activateAutoInsertion([client], document => document.languageId === 'nue');
+
+}
+
+export function deactivate(): Thenable<any> | undefined {
+	return client?.stop();
+}
+
+function activateNueLanguageServer(context: vscode.ExtensionContext) {
+	const runtimeConfig = vscode.workspace.getConfiguration('nue.language-server');
+	const serverModule = require.resolve('nuejs-language-server/bin/server.js');
+	console.log('Loading server from ', serverModule);
+
+	const debugOptions = { execArgv: ['--nolazy', '--inspect=6009'] };
+
 	const serverOptions: lsp.ServerOptions = {
-		run: {
-			module: serverModule.fsPath,
-			transport: lsp.TransportKind.ipc,
-			options: runOptions
-		},
-		debug: {
-			module: serverModule.fsPath,
-			transport: lsp.TransportKind.ipc,
-			options: debugOptions
-		},
+			run: {
+					module: serverModule,
+					transport: TransportKind.ipc,
+					options: {}
+			},
+			debug: { module: serverModule, transport: TransportKind.ipc, options: debugOptions }
 	};
-	const initializationOptions: InitializationOptions = {
-		// no need tsdk because html1 language server do not needed TS support, you can uncomment this line if needed
-		// typescript: { tsdk: require('path').join(vscode.env.appRoot, 'extensions/node_modules/typescript/lib') },
-	};
+
 	const clientOptions: lsp.LanguageClientOptions = {
-		documentSelector: [{ language: 'nue' }],
-		initializationOptions,
+		documentSelector: [{ scheme: 'file', language: 'nue' }],
+		initializationOptions: {
+			// typescript: { tsdk: require('path').join(vscode.env.appRoot, 'extensions/node_modules/typescript/lib') },
+		},
 	};
 	client = new lsp.LanguageClient(
 		'nuejs-language-server',
@@ -37,22 +71,22 @@ export async function activate(context: vscode.ExtensionContext) {
 		serverOptions,
 		clientOptions,
 	);
-	await client.start();
 
-	// support for auto close tag
-	activateAutoInsertion([client], document => document.languageId === 'nue');
-
-	// support for https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volarjs-labs
-	// ref: https://twitter.com/johnsoncodehk/status/1656126976774791168
-	return {
-		volarLabs: {
-			version: supportLabsVersion,
-			languageClients: [client],
-			languageServerProtocol: serverProtocol,
-		},
-	} satisfies ExportsInfoForLabs;
-}
-
-export function deactivate(): Thenable<any> | undefined {
-	return client?.stop();
+	console.log('client is starting', client);
+	client.start().then(_ => {
+		console.log('client started');
+		const tagRequestor = (document: vscode.TextDocument, position: vscode.Position) => {
+			const param = client.code2ProtocolConverter.asTextDocumentPositionParams(
+					document,
+					position
+			);
+			return client.sendRequest(TagCloseRequest.type, param);
+		};
+		const disposable = activateTagClosing(
+				tagRequestor,
+				{ nue: true },
+				'html.autoClosingTags'
+		);
+		context.subscriptions.push(disposable);
+	});
 }

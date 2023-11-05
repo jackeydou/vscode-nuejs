@@ -1,4 +1,6 @@
-#!/usr/bin/env node
+#!/usr/bin/env node\
+
+console.log('server index run')
 if (process.argv.includes("--version")) {
 	const pkgJSON = require("../package.json");
 	console.log(`${pkgJSON["version"]}`);
